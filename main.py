@@ -11,7 +11,7 @@ from tensorflow.keras.layers import Dense
 if __name__ == '__main__':
     sequence = util.separe_column(r'monitoramento-cpu.txt', 'usr')
 
-    n_steps = 3
+    n_steps = 20
 
     X, y = util.split_sequence(sequence.values.tolist(), n_steps)
 
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     model.add(Dense(1))
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3), loss='mse', metrics=['mse'])
 
-    history = model.fit(X, y, epochs=20, verbose=1)
+    history = model.fit(X, y, epochs=150, verbose=1)
 
     resultados = model.evaluate(X, y)
 
@@ -44,9 +44,8 @@ if __name__ == '__main__':
 
 
 
-plt.plot(y, label = 'Comparação entre Y_true e Y_pred', color = 'blue')
+plt.plot(y, label = 'Y_true', color = 'blue')
 plt.plot(pred, label = 'Y_pred', color = 'red')
-plt.xlabel('Número de neurônios na hidden layer.')
 plt.title("n_steps: " + str(n_steps))
 plt.legend()
 plt.show()
