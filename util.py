@@ -16,7 +16,10 @@ def split_sequence(sequence, n_steps):
 #separa só uma coluna do dataframe e troca ',' por '.'
 def separe_column(input_path, column):
     df = pd.read_csv(input_path, sep=' ')
-    df = df.apply(lambda x: x.str.replace(',','.'))
+    try:
+        df = df.apply(lambda x: x.str.replace(',','.'))
+    except:
+        pass
     data = pd.DataFrame(df)
     sequence = data[column]
     return sequence
