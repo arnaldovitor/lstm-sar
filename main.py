@@ -44,8 +44,8 @@ if __name__ == '__main__':
     model.add(Dense(1))
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3), loss='mse', metrics=['acc', 'mse'])
 
-    history = model.fit(X, y, epochs=150, verbose=1)
-
+    hhistory = model.fit(X, y, validation_data=(X_test, y_test), epochs=100, verbose=1)
+    
     resultados = model.evaluate(X, y)
 
     pred = model.predict(X)
