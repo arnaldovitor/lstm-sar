@@ -20,6 +20,7 @@ if __name__ == '__main__':
 
     X, y = split_sequence(train.values.tolist(), n_steps)
     X_test, y_test = split_sequence(test.values.tolist(), n_steps)
+    _, y_true = split_sequence(sequence.values.tolist(), n_steps)
 
     #converte os np array de string -> float
     X = X.astype(np.float)
@@ -42,21 +43,15 @@ if __name__ == '__main__':
     model.add(LSTM(50, activation='relu'))
     #model.add(Dropout(0.2))
     model.add(Dense(1))
-    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3), loss='mse', metrics=['acc', 'mse'])
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3), loss='mse', metrics=['mape', 'mse'])
 
-    hhistory = model.fit(X, y, validation_data=(X_test, y_test), epochs=100, verbose=1)
-    
-    resultados = model.evaluate(X, y)
+    history = model.fit(X, y, validation_data=(X_test, y_test), epochs=100, verbose=1)
+    pred_x = model.predict(X)
+    pred_x_test = model.predict(X_test)
 
-    pred = model.predict(X)
-
-    print("loss, mse, acc = ", resultados)
-
-    for i in range(len(pred)):
-        print(pred[i], y[i])
-
-    plt.plot(y, label = 'Y_true', color = 'blue')
-    plt.plot(pred, label = 'Y_pred', color = 'red')
+    plt.plot(y_true, label='Y_true', color='blue')
+    plt.plot(pred_x, label='Y_pred', color='red')
+    plt.plot(pred_x_test, label='Y_test_pred', color='green')
     plt.title("n_steps: " + str(n_steps))
     plt.legend()
     plt.show()
