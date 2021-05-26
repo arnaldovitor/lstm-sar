@@ -1,7 +1,5 @@
-from tensorflow.python.keras.layers import Dropout
-from sklearn.metrics import accuracy_score
 from matplotlib import pyplot as plt
-import util
+from util import *
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
@@ -11,6 +9,7 @@ from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import TimeDistributed
 from tensorflow.keras.layers import Conv1D
 from tensorflow.keras.layers import MaxPooling1D
+from tensorflow.keras.layers import Dropout
 
 if __name__ == '__main__':
     sequence = separe_column(r"monitoramento-disco.txt", 'usado')
@@ -41,7 +40,6 @@ if __name__ == '__main__':
     model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
     model.add(TimeDistributed(Flatten()))
     model.add(LSTM(50, activation='relu'))
-    #model.add(Dropout(0.2))
     model.add(Dense(1))
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3), loss='mse', metrics=['mape', 'mse'])
 
@@ -49,10 +47,14 @@ if __name__ == '__main__':
     pred_x = model.predict(X)
     pred_x_test = model.predict(X_test)
 
+    dif = (len(y_true) - len(pred_x_test))
+    eixo_x_test = [(i + dif) for i in range(len(pred_x_test))]
+
     plt.plot(y_true, label='Y_true', color='blue')
-    plt.plot(pred_x, label='Y_pred', color='red')
-    plt.plot(pred_x_test, label='Y_test_pred', color='green')
+    plt.plot(pred_x, label='Y_pred', color='red', linestyle='-.')
+    plt.plot(eixo_x_test, pred_x_test, label='Y_test_pred', color='green', linestyle='-.')
     plt.title("n_steps: " + str(n_steps))
     plt.legend()
     plt.show()
+
 
