@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
     X, y = split_sequence(train.values.tolist(), n_steps)
     X_test, y_test = split_sequence(test.values.tolist(), n_steps)
-    _, y_true = split_sequence(sequence.values.tolist(), n_steps)
+    y_true = np.concatenate((y, y_test), axis=0)
 
     #converte os np array de string -> float
     X = X.astype(np.float)

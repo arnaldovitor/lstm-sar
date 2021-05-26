@@ -1,0 +1,28 @@
+# plot-1
+- input size: 2,2
+- conv1d: 64
+- maxpool: 2
+- lstm: 50
+- dense: 1
+- dropout: 0.0
+- mse:4.8460e-06
+- mape: 0.0943 
+- mae: 0.0015
+- mse_val: 3.9205e-06
+- mape_val: 0.0483
+- mae_val: 0.0015
+
+# plot-2
+- input size: 2,2
+- conv1d: 64
+- maxpool: 2
+- lstm: 50
+- dense: 1
+- dropout: 0.2
+- mse: 0.0119
+- mape: 7.0224
+- mae:
+- mse_val: 3.8233e-06
+- mape_val: 8.6084e-04
+- mae_val:
+
